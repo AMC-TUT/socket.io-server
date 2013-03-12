@@ -1,8 +1,13 @@
 {
   "name": "socket.io-server",
   "version": "0.0.1",
-  "description": "socket.io based game server for AMC-TUT",
+  "description": "socket.io based game server",
   "main": "app.js",
+  "dependencies": {
+    "socket.io": "~0.9.13",
+    "underscore": "~1.4.4"
+  },
+  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -12,56 +17,6 @@
   },
   "author": "teemu jonkkari",
   "license": "MIT",
-  "dependencies": {
-    "socket.io": {
-      "version": "0.9.13",
-      "dependencies": {
-        "socket.io-client": {
-          "version": "0.9.11",
-          "dependencies": {
-            "uglify-js": {
-              "version": "1.2.5"
-            },
-            "ws": {
-              "version": "0.4.25",
-              "dependencies": {
-                "commander": {
-                  "version": "0.6.1"
-                },
-                "tinycolor": {
-                  "version": "0.0.1"
-                },
-                "options": {
-                  "version": "0.0.3"
-                }
-              }
-            },
-            "xmlhttprequest": {
-              "version": "1.4.2"
-            },
-            "active-x-obfuscator": {
-              "version": "0.0.1",
-              "dependencies": {
-                "zeparser": {
-                  "version": "0.0.5"
-                }
-              }
-            }
-          }
-        },
-        "policyfile": {
-          "version": "0.0.4"
-        },
-        "base64id": {
-          "version": "0.1.0"
-        },
-        "redis": {
-          "version": "0.7.3"
-        }
-      }
-    },
-    "underscore": {
-      "version": "1.4.4"
-    }
-  }
+  "readmeFilename": "README.md",
+  "gitHead": "3f410db42fa465c728f57f5d0124ae3298f88b35"
 }
