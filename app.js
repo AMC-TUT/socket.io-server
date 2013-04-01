@@ -6,7 +6,8 @@ var io = require('socket.io').listen(9999);
 io.enable('browser client minification'); // send minified client
 io.enable('browser client etag'); // apply etag caching logic based on version number
 io.enable('browser client gzip'); // gzip the file
-// io.set('log level', 0); // reduce logging
+io.set('log level', 0); // reduce logging
+io.set('transports', ['websocket', 'flashsocket', 'htmlfile', 'xhr-polling', 'jsonp-polling']);
 
 var Room = io.sockets.on('connection', function(socket) {
 
@@ -23,7 +24,7 @@ var Room = io.sockets.on('connection', function(socket) {
     if (clientRole == 'manager') {
       socket.broadcast.to(joinedRoom).emit('managerDisconnected', true);
     } else {
-      io.sockets. in (joinedRoom).emit('clientLeftTheRoom', {
+      io.sockets.in(joinedRoom).emit('clientLeftTheRoom', {
         nickName: nickName,
         socketId: socket.id
       });
@@ -82,7 +83,7 @@ var Room = io.sockets.on('connection', function(socket) {
           joinedRoom = data.room;
           nickName = data.nickName;
 
-          io.sockets. in (joinedRoom).emit('clientJoinedToRoom', {
+          io.sockets.in(joinedRoom).emit('clientJoinedToRoom', {
             nickName: nickName,
             socketId: socket.id
           });
@@ -103,7 +104,7 @@ var Room = io.sockets.on('connection', function(socket) {
       joinedRoom = data.room;
       nickName = data.nickName;
 
-      io.sockets. in (joinedRoom).emit('clientJoinedToRoom', {
+      io.sockets.in(joinedRoom).emit('clientJoinedToRoom', {
         nickName: nickName,
         socketId: socket.id
       });
@@ -116,7 +117,7 @@ var Room = io.sockets.on('connection', function(socket) {
     }
   });
 
-  socket.on('c', function(data) {
+socket.on('c', function(data) {
 
     // add from value
     if (clientRole == 'client') {
@@ -124,17 +125,18 @@ var Room = io.sockets.on('connection', function(socket) {
       io.sockets.socket(joinedRoom).emit('c', socket.id, data.obj);
     } else {
       // send control message to all clients
-      io.sockets. in (joinedRoom).emit('c', from, data.obj);
+      io.sockets.in(joinedRoom).emit('c', null, data.obj);
     }
 
   });
 
-  socket.on('unsubscribe', function(data) {
-    io.sockets. in (joinedRoom).emit('clientLeftTheRoom', {
-      nickName: nickName,
-      socketId: socket.id
-    });
-    socket.leave(data.room);
+socket.on('unsubscribe', function(data) {
+  io.sockets.in(joinedRoom).emit('clientLeftTheRoom', {
+    nickName: nickName,
+    socketId: socket.id
   });
+  socket.leave(data.room);
+});
 
 });
+
