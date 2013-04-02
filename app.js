@@ -14,7 +14,7 @@ var Room = io.sockets.on('connection', function(socket) {
   var joinedRoom = null;
   var clientRole = null; // as default, game is manager
   var maxClients = 0;
-  var nickName = null;
+  var name = null;
 
   socket.on('connect', function() {
     // socket.broadcast.emit('user connected');
@@ -25,7 +25,7 @@ var Room = io.sockets.on('connection', function(socket) {
       socket.broadcast.to(joinedRoom).emit('managerDisconnected', true);
     } else {
       io.sockets.in(joinedRoom).emit('clientLeftTheRoom', {
-        nickName: nickName,
+        name: name,
         socketId: socket.id
       });
     }
@@ -56,7 +56,7 @@ var Room = io.sockets.on('connection', function(socket) {
 
       var result = {};
 
-      nickName = data.nickName;
+      name = data.name;
       clientRole = data.clientRole;
 
       // check that room exists
@@ -82,10 +82,10 @@ var Room = io.sockets.on('connection', function(socket) {
           socket.join(data.room);
 
           joinedRoom = data.room;
-          nickName = data.nickName;
+          name = data.name;
 
           io.sockets.in(joinedRoom).emit('clientJoinedToRoom', {
-            nickName: nickName,
+            name: name,
             socketId: socket.id
           });
 
@@ -103,10 +103,10 @@ var Room = io.sockets.on('connection', function(socket) {
       socket.join(data.room);
 
       joinedRoom = data.room;
-      nickName = data.nickName;
+      name = data.name;
 
       io.sockets.in(joinedRoom).emit('clientJoinedToRoom', {
-        nickName: nickName,
+        name: name,
         socketId: socket.id
       });
 
@@ -133,7 +133,7 @@ socket.on('c', function(data) {
 
 socket.on('unsubscribe', function(data) {
   io.sockets.in(joinedRoom).emit('clientLeftTheRoom', {
-    nickName: nickName,
+    name: name,
     socketId: socket.id
   });
   socket.leave(data.room);
