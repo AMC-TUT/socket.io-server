@@ -32,6 +32,7 @@ var Room = io.sockets.on('connection', function(socket) {
   });
 
   socket.on('subscribe', function(data, fn) {
+    // console.log(io.transports[socket.id].name); // connection type, eg. websocket
 
     // if manager (game)
     if (!_.isUndefined(data.clientRole) && data.clientRole == 'manager') {
